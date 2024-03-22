@@ -1,0 +1,33 @@
+Task :if the exact key word (app crashed )  is present in ecs log then the cloud watch will triger an alaram and notifiy
+
+solution :
+
+To set up an alarm in AWS CloudWatch based on specific keywords in Amazon ECS logs, you can follow these general steps:
+
+1. **Create a CloudWatch Log Group:**
+   - Make sure your ECS container instances are configured to send logs to CloudWatch Logs.
+   - Create a new Log Group in CloudWatch Logs to store your ECS container logs.
+
+2. **Define a Metric Filter:**
+   - In your Log Group, create a Metric Filter to extract the relevant information from your logs. In this case, you want to look for the keyword "app crashed".
+   - Go to the CloudWatch console, navigate to "Logs" and select your Log Group.
+   - Click on the "Create Metric Filter" button.
+   - Define a filter pattern that matches your keyword, such as `"[app crashed, ...]"`.
+   - Assign a name for your filter and create a new metric for it.
+
+3. **Set up an Alarm:**
+   - After creating the metric filter, go to the CloudWatch console and select "Alarms" from the left-hand menu.
+   - Click on the "Create Alarm" button.
+   - Choose the metric you created in the previous step.
+   - Define the conditions for the alarm. For example, you might set a threshold like "Threshold >= 1 for 1 consecutive period(s)" to trigger the alarm if there is at least one occurrence of the keyword in a log stream.
+   - Configure the actions to take when the alarm state changes. You can set up a notification action to send an SNS (Simple Notification Service) message.
+
+4. **Configure SNS Topic:**
+   - If you don't have an SNS topic, create one in the AWS SNS console.
+   - Add an endpoint for your notification, which could be an email address or other supported protocols.
+
+5. **Complete the Alarm Configuration:**
+   - Finish configuring the alarm by providing a name and description.
+   - Review the settings and click "Create Alarm."
+
+Now, if the specified keyword ("app crashed") appears in your ECS logs, the CloudWatch Alarm will be triggered, and the configured notification action (e.g., sending an email) will be executed. Adjust the settings based on your specific requirements and the severity of the events you want to monitor.
